@@ -35,10 +35,32 @@ This will make the atribution `(username='admin)` and ,with `--`, comment the re
 
 **Note:** In the past two sub-sections we exploited the username field because the pasword field is enctrypted with a hash before it goes to the server, so that field cannot be used to bypass the system.
 
-### SQL Injections I
+### SQL Injections 
 
 In this section we are testing a form that enables the search for products by partial matching of a string or character.
 
 The query is made by executing the following line:
 
 `"SELECT * FROM products WHERE product_name LIKE'".$query."%'`
+
+There are several ways to take advantage of this and extract information:
+
+ 1. `b%' order by 5 -- //`
+	 
+    The `order by N` directive is ordering the displayed information by the **column N**, in this way we can manipulate the order of data as we want.
+    
+    The first part of the query (`CHARS%`) is necessary and lets us search for products that start with the pattern defined by **CHARS**.
+	 
+2. `'union select null,id,username,password,fname from users -- // `
+	
+    Following the same logic as in the first one, we can use the `union` directive followed by a `select` to populate the table we the information we want to see.
+    
+    In this specific example, we are able to access and see information about all users stored in the database.
+
+3.  `'union select 1,'<img src="http://address"><img>',3,4,5 -- //`
+	
+    In this example (a little bit like the previous one), we are changing the information displayed and adding html code to display an image of our choice.
+
+4. `'union select null,null,null,null,table_name from information_schema.tables -- //`
+	
+    One last example where we change the table's information and diplay the name of all the tables stored in the database.
