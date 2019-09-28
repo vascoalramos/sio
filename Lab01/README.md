@@ -16,7 +16,7 @@
 
 The login validation is made by executing the following line:
 
-```SELECT * FROM users where username='".$user."' AND password ='.md5($password).'```
+`SELECT * FROM users where username='".$user."' AND password ='.md5($password).'`
 
 Following this query structure, we put a valid username in the username input like this: `admin' -- //`.
 
@@ -25,6 +25,7 @@ This will make the atribution `username='admin` and ,with `--`, comment the rest
 ### Basic SQL Injections II
 
 In this exercise we are testing another login page.
+
 In this one, the login validation is made by executing the following line:
 `SELECT * FROM users where (username='".$user."') AND (password ='.md5($password).')`.
 
@@ -34,4 +35,10 @@ This will make the atribution `(username='admin)` and ,with `--`, comment the re
 
 **Note:** In the past two sub-sections we exploited the username field because the pasword field is enctrypted with a hash before it goes to the server, so that field cannot be used to bypass the system.
 
-### SQL Injections 1
+### SQL Injections I
+
+In this section we are testing a form that enables the search for products by partial matching of a string or character.
+
+The query is made by executing the following line:
+
+`"SELECT * FROM products WHERE product_name LIKE'".$query."%'`
