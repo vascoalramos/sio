@@ -64,3 +64,28 @@ There are several ways to take advantage of this and extract information:
 4. `'union select null,null,null,null,table_name from information_schema.tables -- //`
 	
     One last example where we change the table's information and diplay the name of all the tables stored in the database.
+
+
+### SQL Second order attacks
+**Definition:** attacks that result in the storage of an unsanitized piece of SQL, that is later executed by an insecure function.
+
+Basically, what we have is a field that will present any value we want.
+
+The technique used in the last step can be used here.
+
+The difference is that the information is not provided immediately, but only when the user executes the respective function.
+
+This highlights the case that **SQL Injections can happen even in internal functions** that process data out of the database.
+
+Examples:
+1. `'or 1 in (SELECT @@version) -- //`
+	
+	When we execute the funtion, I will display an error.
+	
+	That error contains the information we wanted: `Warning 1292: Truncated incorrect DOUBLE value : 1.1.1.2`
+	
+2. `' or 1 in (select password from users) -- //`
+	
+	When we execute the funtion, I will display an error.
+	
+	That error contains the information we wanted: `Warning<: 1292: Truncated incorrect DOUBLE value : (...)`, where `(...)` are the passwords stored at the passwords' column of the table users.
