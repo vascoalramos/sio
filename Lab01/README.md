@@ -15,7 +15,8 @@
 ### Basic SQL Injections I
 
 The login validation is made by executing the following line:
-`SELECT * FROM users where username='".$user."' AND password ='.md5($password).'`.
+
+```SELECT * FROM users where username='".$user."' AND password ='.md5($password).'```
 
 Following this query structure, we put a valid username in the username input like this: `admin' -- //`.
 
