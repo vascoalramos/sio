@@ -10,6 +10,7 @@
 **Note 2:** In all cases, you must terminate all SQL queries by using `-- //`. The objective is to discard all text after your payload.
 
 
+
 ## SQL Injection Attacks
 
 ### Basic SQL Injections I
@@ -21,6 +22,7 @@ The login validation is made by executing the following line:
 Following this query structure, we put a valid username in the username input like this: `admin' -- //`.
 
 This will make the atribution `username='admin` and ,with `--`, comment the rest of the query (`//` is necessary server language so that this strategy works).
+
 
 ### Basic SQL Injections II
 
@@ -34,6 +36,7 @@ Following this query structure, we put a valid username in the username input li
 This will make the atribution `(username='admin)` and ,with `--`, comment the rest of the query (`//` is necessary server language so that this strategy works).
 
 **Note:** In the past two sub-sections we exploited the username field because the pasword field is enctrypted with a hash before it goes to the server, so that field cannot be used to bypass the system.
+
 
 ### SQL Injections 
 
@@ -89,3 +92,34 @@ Examples:
 	When we execute the funtion, I will display an error.
 	
 	That error contains the information we wanted: `Warning<: 1292: Truncated incorrect DOUBLE value : (...)`, where `(...)` are the passwords stored at the passwords' column of the table users.
+	
+	
+### Blind SQL Injection
+**Definition:** when an attacker is able to determine the content of the database by the result of an operation. That is, the attacker will not get data from the database, but it will get a code (Error code, true/false, etc... ) that provides information about the data in the database.
+
+A good example is a page that displays information abouta user.
+
+In this situation,  the user is specified in the URL. 
+
+The query is:
+
+`SELECT * FROM users WHERE username ='".$_GET["user"]."'`
+
+We can bypass the system by write in the URL the following statement:
+`user=bob'AND TEST -- //`.
+
+If the TEST succeeds, information is presented. Otherwise nothing is presented.
+
+Examples:
+
+1. `user=bob'AND substring((select id from users limit 1), 1, 1)>0 -- //`
+	
+	In this example, we can test if the **id** column exists in the database (if the profile data is shown, the column exists; otherwise nothing is showed to the user).
+
+2. `user=bob'AND substring((select count(id) from users), 1) = N -- //`
+
+	In this example, we can figure it out how many users are stored in the users' table by changing the value N until the profile data is shown.
+
+3. `user=bob'AND substring((select count(id) from users where username like 'a%'), 1) = N -- //`
+
+	In this example, we can figure it out how many users have a username starting with 'a' by changing the value N until the profile data is shown.
