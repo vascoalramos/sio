@@ -74,15 +74,15 @@ Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP he
 A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, and port) than its own origin.
 ```  
 <script>  
-$.ajax({  
-    url: "http://external:8000/smile.jpg",  
-    type: "GET",
-    headers: {
-        "Image-Request": "this image will pass",
-    },
-    success: function() {
-        alert("smile.jpg loaded");
-    },
-});
+    $.ajax({  
+        url: "http://external:8000/smile.jpg",  
+        type: "GET",
+        headers: {
+            "Image-Request": "this image will pass",
+        },
+        success: function() {
+            alert("smile.jpg loaded");
+        },
+    });
 </script>
 ```
